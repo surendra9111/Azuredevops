@@ -1,0 +1,31 @@
+terraform {
+
+  required_version = ">=0.12"
+  
+  required_providers {
+    azurerm = {
+      source = "hashicorp/azurerm"
+      version = "~>2.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+resource "azurerm_resource_group" "testrg" {
+  name     = "resourceGroupName"
+  location = "westus"
+}    
+
+resource "azurerm_storage_account" "testisghnapss" {
+  name                     = "testisghnapss13754"
+  resource_group_name      = "${azurerm_resource_group.testrg.name}"
+  location                 = "westus"
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+
+  tags = {
+    environment = "staging"
+  }
+}
